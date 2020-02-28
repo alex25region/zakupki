@@ -1,0 +1,146 @@
+Настраиваем проект.
+
+Удаляем все миграции
+
+Создаем модели с миграциями:
+
+php artisan make:model Models\MPI -m
+php artisan make:model Models\TRU -m
+php artisan make:model Models\OBAS -m
+
+Миграции:
+
+database/migrations/2020_02_27_231310_create_m_p_i_s_table.php
+
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateMPISTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('mpi', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('shortname', 50)->unique();
+            $table->string('name')->unique();
+            $table->string('kod', 50)->unique();
+            $table->timestamps();
+
+            $table->index(['name', 'kod']);
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('mpi');
+    }
+}
+
+---------------------------------------------------------------------------------
+database/migrations/2020_02_27_231534_create_t_r_u_s_table.php
+
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateTRUSTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('tru', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('name')->unique();
+            $table->unsignedBigInteger('mpi');
+            $table->timestamps();
+
+            $table->foreign('mpi')->references('id')->on('mpi');
+
+            $table->index(['name']);
+
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('tru');
+    }
+}
+
+---------------------------------------------------------------------------------
+
+database/migrations/2020_02_27_231546_create_o_b_a_s_s_table.php
+
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateOBASSTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('obas', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('year', 4);
+            $table->unsignedBigInteger('mpi');
+            $table->unsignedBigInteger('tru');
+            $table->double('sum', 8, 2)->default('0');
+
+            $table->timestamps();
+
+            $table->foreign('mpi')->references('id')->on('mpi');
+            $table->foreign('tru')->references('id')->on('tru');
+
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('obas');
+    }
+}
+---------------------------------------------------------------------------------
+
+php artisan migrate
+или
+php artisan migrate:refresh
+
+
+В моделях необходимо первым делом указать поля таблиц которые будут обновляться.
+Служебные поля ID, created_at, updated_at и т.п. заполняются автоматически!
