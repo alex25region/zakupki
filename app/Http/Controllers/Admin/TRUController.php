@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\TRU;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -14,7 +15,8 @@ class TRUController extends Controller
      */
     public function index()
     {
-        //
+        $tru = TRU::all();
+        return view('', $tru);
     }
 
     /**

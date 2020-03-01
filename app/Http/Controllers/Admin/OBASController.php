@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\OBAS;
 
 class OBASController extends Controller
 {
@@ -14,7 +15,9 @@ class OBASController extends Controller
      */
     public function index()
     {
-        //
+        $obas = OBAS::with('getMpi:id,name', 'getTRU:id,name')->get()->sortBy( 'mpi_id');
+        return view('');
+
     }
 
     /**

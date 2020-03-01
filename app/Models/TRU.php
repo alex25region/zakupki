@@ -6,5 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class TRU extends Model
 {
+    protected $table = 'tru';
     protected $guarded = [];
+
+    public function getMPIfromTRU() {
+        return $this->hasOne(MPI::class, 'id', 'mpi_id');
+    }
 }

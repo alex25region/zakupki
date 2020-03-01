@@ -18,7 +18,7 @@ class CreateOBASSTable extends Migration
             $table->string('year', 4);
             $table->unsignedBigInteger('mpi_id');
             $table->unsignedBigInteger('tru_id');
-            $table->double('sum', 8, 2)->default('0');
+            $table->double('sum', 12, 2)->default('0');
 
             $table->timestamps();
 

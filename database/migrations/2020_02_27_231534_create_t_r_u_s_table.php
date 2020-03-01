@@ -16,10 +16,10 @@ class CreateTRUSTable extends Migration
         Schema::create('tru', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name')->unique();
-            $table->unsignedBigInteger('mpi');
+            $table->unsignedBigInteger('mpi_id');
             $table->timestamps();
 
-            $table->foreign('mpi')->references('id')->on('mpi');
+            $table->foreign('mpi_id')->references('id')->on('mpi');
 
             $table->index(['name']);
 
