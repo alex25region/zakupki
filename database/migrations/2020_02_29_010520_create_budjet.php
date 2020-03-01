@@ -4,18 +4,18 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMPISTable extends Migration
+class CreateBudjet extends Migration
 {
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
     public function up()
     {
-        Schema::create('mpi', function (Blueprint $table) {
+        Schema::create('budjet', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('shortname', 50)->unique();
-            $table->string('name')->unique();
-            $table->string('kod', 50)->unique();
             $table->timestamps();
-
-            $table->index(['name', 'kod']);
         });
     }
 
@@ -26,6 +26,6 @@ class CreateMPISTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mpi');
+        Schema::dropIfExists('budjet');
     }
 }
