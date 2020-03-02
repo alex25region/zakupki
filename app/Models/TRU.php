@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class TRU extends Model
 {
-    protected $table = 'tru';
+    protected $table = 'z_tru';
     protected $guarded = [];
 
     public function getMPIfromTRU() {

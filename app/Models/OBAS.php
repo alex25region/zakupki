@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class OBAS extends Model
 {
-    protected $table = 'obas';
+    protected $table = 'z_obas';
     protected $guarded = [];
 
 //    public function getMPI() {

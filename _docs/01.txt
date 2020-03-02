@@ -160,3 +160,43 @@ php artisan migrate:refresh --path=database/migrations/2020_02_29_010520_create_
 
 В моделях необходимо первым делом указать поля таблиц которые будут обновляться.
 Служебные поля ID, created_at, updated_at и т.п. заполняются автоматически!
+
+
+---------------------------------------------------------------------------------
+
+Добавление колонки в существующую таблицу:
+php artisan make:migration add_column_year_to_mpi
+
+#--------------------------------------------------------------
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class AddColumnYearToMpi extends Migration
+{
+    public function up()
+    {
+        Schema::table('mpi', function (Blueprint $table) {
+            $table->string('year', 4)->after('id');
+        });
+    }
+
+    public function down()
+    {
+        Schema::table('mpi', function (Blueprint $table) {
+
+        });
+    }
+}
+
+#--------------------------------------------------------------
+
+Выполнение:
+php artisan migrate --path=database/migrations/2020_03_01_230158_add_column_year_to_mpi.php
+
+---------------------------------------------------------------------------------
+Если переименовал файл миграции, то при выполении миграций будет ошибка.
+Исправить:
+composer dump-autoload

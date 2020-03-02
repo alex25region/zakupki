@@ -6,6 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class BUDJET extends Model
 {
-    protected $table='budjet';
+    protected $table='z_budjet';
 
 }

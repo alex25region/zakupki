@@ -4,12 +4,13 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMPISTable extends Migration
+class CreateMPITable extends Migration
 {
     public function up()
     {
-        Schema::create('mpi', function (Blueprint $table) {
+        Schema::create('z_mpi', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('year', 4);
             $table->string('shortname', 50)->unique();
             $table->string('name')->unique();
             $table->string('kod', 50)->unique();
@@ -26,6 +27,6 @@ class CreateMPISTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mpi');
+        Schema::dropIfExists('z_mpi');
     }
 }

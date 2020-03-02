@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTRUSTable extends Migration
+class CreateTRUTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreateTRUSTable extends Migration
      */
     public function up()
     {
-        Schema::create('tru', function (Blueprint $table) {
+        Schema::create('z_tru', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name')->unique();
+            $table->string('name');
             $table->unsignedBigInteger('mpi_id');
             $table->timestamps();
 
-            $table->foreign('mpi_id')->references('id')->on('mpi');
+            $table->foreign('mpi_id')->references('id')->on('z_mpi');
 
             $table->index(['name']);
 
@@ -33,6 +33,6 @@ class CreateTRUSTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tru');
+        Schema::dropIfExists('z_tru');
     }
 }

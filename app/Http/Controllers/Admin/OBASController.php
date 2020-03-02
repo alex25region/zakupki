@@ -16,7 +16,11 @@ class OBASController extends Controller
     public function index()
     {
         $obas = OBAS::with('getMpi:id,name', 'getTRU:id,name')->get()->sortBy( 'mpi_id');
-        return view('');
+        //$obas = OBAS::all();
+
+        dd($obas);
+
+        //return view('');
 
     }
 
