@@ -12,4 +12,8 @@ class MPI extends Model
     public function getTRU() {
         return $this->hasMany(TRU::class,'mpi_id', 'id');
     }
+
+    public function getOBAS() {
+        return $this->belongsTo('App\Models\OBAS');
+    }
 }

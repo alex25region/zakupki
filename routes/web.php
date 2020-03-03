@@ -16,3 +16,7 @@ Route::get('/', function () {
 });
 
 Route::get('/test', 'Admin\OBASController@index');
+
+Route::get('/admin', function (){
+    return view('admin.admin');
+});

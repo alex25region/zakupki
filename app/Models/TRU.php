@@ -12,4 +12,9 @@ class TRU extends Model
     public function getMPIfromTRU() {
         return $this->hasOne(MPI::class, 'id', 'mpi_id');
     }
+
+    public function getOBAS() {
+        return $this->belongsTo('App\Models\OBAS');
+    }
+
 }
