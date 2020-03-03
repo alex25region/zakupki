@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\MPI;
 
 class MPIController extends Controller
 {
@@ -14,7 +15,8 @@ class MPIController extends Controller
      */
     public function index()
     {
-        //
+        $mpis = MPI::all();
+        return view('admin.index_mpi', compact('mpis'));
     }
 
     /**

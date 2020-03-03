@@ -16,13 +16,13 @@ class OBASController extends Controller
      */
     public function index()
     {
-        $obas = OBAS::with('getMPI:id,shortname,kod', 'getTRU:id,name', 'getKOSGU:id,kod,name', 'getOKPD:id,kod,name')
+        $obass = OBAS::with('getMPI:id,shortname,kod', 'getTRU:id,name', 'getKOSGU:id,kod,name', 'getOKPD:id,kod,name')
             //->take(10)
             ->get()
             ->sortBy( 'mpi_id');
 
         //$obas = OBAS::all();
-        dd($obas);
+        //dd($obas);
 
 // почему то не пашет!
 //        $obas = DB::table('z_obas')
@@ -33,9 +33,7 @@ class OBASController extends Controller
 //            ->select('z_obas.year, z_mpi.shortname, z_mpi.kod, z_tru.name, z_kosgu.kod, z_kosgu.name, z_okpd.kod, z_okpd.name')
 //            ->get();
 
-        dd($obas);
-
-        //return view('');
+        return view('admin.index_obas', compact ('obass'));
 
     }
 

@@ -15,7 +15,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/test', 'Admin\OBASController@index');
+Route::resource('/obas', 'Admin\OBASController');
+Route::resource('/mpi', 'Admin\MPIController');
+Route::resource('/tru', 'Admin\TRUController');
+Route::resource('/kosgu', 'Admin\KOSGUController');
+Route::resource('/okpd', 'Admin\OKPDController');
 
 Route::get('/admin', function (){
     return view('admin.admin');

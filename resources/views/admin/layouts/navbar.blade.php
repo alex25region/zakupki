@@ -41,7 +41,7 @@
                 <i class="fa fa-power-off"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-right">
-                <a href="#" class="dropdown-ite ">Выход</a>
+                <a href="#" class="dropdown-item ">Выход</a>
             </div>
         </li>
     </ul>

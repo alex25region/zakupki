@@ -15,8 +15,8 @@ class TRUController extends Controller
      */
     public function index()
     {
-        $tru = TRU::all();
-        return view('', $tru);
+        $trus = TRU::all();
+        return view('admin.index_tru', compact('trus'));
     }
 
     /**

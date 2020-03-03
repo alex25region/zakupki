@@ -1,4 +1,4 @@
-<aside class="main-sidebar sidebar-dark-lime elevation-4">
+<aside class="main-sidebar sidebar-dark-secondary elevation-4">
     <!-- Brand Logo -->
     <a href="" class="brand-link">
         {{--            <img src="" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"--}}
@@ -17,55 +17,45 @@
 
         <!-- Sidebar Menu -->
         <nav class="mt-1">
-            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <!-- Add icons to the links using the .nav-icon class
-                     with font-awesome or any other icon font library -->
-                {{--                    <li class="nav-header">Таблицы</li>--}}
-                <li class="nav-item has-treeview">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-table"></i>
-                        <p>
-                            Таблицы БД
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item ml-4">
+            <ul id="rightmenu" class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" >
+                <li class="nav-header">Выберите таблицу:</li>
+                        <li class="nav-item">
+                            <a href="{{ route('obas.index') }}" class="nav-link">
+                                <i class="fa fa-angle-right"></i>
+                                <p><b>ОБАС</b></p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{route('mpi.index')}}" class="nav-link">
+                                <i class="fa fa-angle-right"></i>
+                                <p><b>МПИ</b></p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('tru.index')}}" class="nav-link">
+                                <i class="fa fa-angle-right"></i>
+                                <p><b>ТРУ</b></p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('kosgu.index')}}" class="nav-link">
+                                <i class="fa fa-angle-right "></i>
+                                <p><b>КОСГУ</b></p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('okpd.index')}}" class="nav-link">
+                                <i class="fa fa-angle-right "></i>
+                                <p><b>ОКПД</b></p>
+                            </a>
+                        </li>
+{{--                        <li class="nav-item ml-4">
                             <a href="#" class="nav-link">
                                 <i class="fa fa-angle-right"></i>
-                                <p>Бюджет</p>
+                                <p><b>Бюджет</b></p>
                             </a>
-                        </li>
-                        <li class="nav-item ml-4">
-                            <a href="#" class="nav-link">
-                                <i class="fa fa-angle-right"></i>
-                                <p>МПИ</p>
-                            </a>
-                        </li>
-                        <li class="nav-item ml-4">
-                            <a href="#" class="nav-link">
-                                <i class="fa fa-angle-right"></i>
-                                <p>ТРУ</p>
-                            </a>
-                        </li>
-                        <li class="nav-item ml-4">
-                            <a href="#" class="nav-link">
-                                <i class="fa fa-angle-right small"></i>
-                                <p>КОСГУ</p>
-                            </a>
-                        </li>
-                        <li class="nav-item ml-4">
-                            <a href="#" class="nav-link">
-                                <i class="fa fa-angle-right small"></i>
-                                <p>ОКПД</p>
-                            </a>
-                        </li>
-                        <li class="nav-item ml-4">
-                            <a href="#" class="nav-link">
-                                <i class="fa fa-angle-right small"></i>
-                                <p>ОБАС</p>
-                            </a>
-                        </li>
+                        </li>--}}
                     </ul>
                 </li>
 
