@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class="card shadow w-100 mx-3">
+    <div class="card shadow w-100">
         <div class="card-header">
             <h3>ОБАС</h3>
         </div>

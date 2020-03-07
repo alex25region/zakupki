@@ -11,8 +11,8 @@ class CreateMPITable extends Migration
         Schema::create('z_mpi', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('year', 4);
-            $table->string('shortname', 50)->unique();
-            $table->string('name')->unique();
+            $table->string('shortname', 50);
+            $table->string('name');
             $table->string('kod', 50)->unique();
             $table->timestamps();
 

@@ -15,7 +15,7 @@ class TRUController extends Controller
      */
     public function index()
     {
-        $trus = TRU::all();
+        $trus = TRU::with('getMPIfromTRU')->get();
         return view('admin.index_tru', compact('trus'));
     }
 

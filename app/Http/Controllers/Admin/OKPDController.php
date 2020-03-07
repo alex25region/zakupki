@@ -15,7 +15,7 @@ class OKPDController extends Controller
      */
     public function index()
     {
-        $okpds = OKPD::all();
+        $okpds = OKPD::with('getKODrashodov')->get();
         return view('admin.index_okpd', compact('okpds'));
     }
 

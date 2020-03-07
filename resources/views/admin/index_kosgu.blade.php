@@ -1,17 +1,17 @@
 @extends('admin.layouts.dashboard')
 
 @section('content')
-    {{--    <div id="app">--}}
-    {{--        <h1>Hello, admin!</h1>--}}
-    {{--    </div>--}}
-
     <div class="card shadow w-100 ml-0">
         <div class="card-header">
             <h3>КОСГУ</h3>
         </div>
         <div class="card-body">
-
-            <table class="table table-hover table-striped table-sm table-bordered">
+            <div class="row mb-3 justify-content-end">
+                <button class="btn btn-primary mr-3">
+                    Добавить КОСГУ
+                </button>
+            </div>
+            <table class="table table-hover table-striped table-sm ">
 
                 <thead>
 
@@ -20,6 +20,7 @@
                     <th>Код расходов</th>
                     <th>Код КОСГУ</th>
                     <th>Наименование КОСГУ</th>
+                    <th>Действия</th>
                 </tr>
                 </thead>
 
@@ -30,15 +31,14 @@
 
                         <td> {{ $kosgu->id }} </td>
                         <td> {{ $kosgu->getKODrashodov->kod }} </td>
-                        <td> {{ $kosgu->kod }} </td>
+                        <td> <b>{{ $kosgu->kod }} </b></td>
                         <td> {{ $kosgu->name}} </td>
-
-
-                        {{--                        <td class="align-middle">--}}
-                        {{--                            <a href="{{route('admin.protokols.show', $protokol->KodProtokol)}}">--}}
-                        {{--                                <button type="button" class="btn btn-sm btn-primary shadow">Перейти к протоколу</button>--}}
-                        {{--                            </a>--}}
-                        {{--                        </td>--}}
+                        <td>
+                            <div class="btn-group btn-group-sm px-2" role="group" aria-label="Basic example">
+                                <button type="button" class="btn btn-success"><i class="fa fa-pencil-alt"></i></button>
+                                <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                            </div>
+                        </td>
                     </tr>
                 @empty
                     <tr class="searchable">

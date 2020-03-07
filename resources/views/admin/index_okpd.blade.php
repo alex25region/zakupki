@@ -7,16 +7,21 @@
             <h3>ОКПД2</h3>
         </div>
         <div class="card-body">
-
-            <table class="table table-hover table-striped text-center table-sm table-bordered">
+            <div class="row mb-3 justify-content-end">
+                <button class="btn btn-primary mr-3">
+                    Добавить ОКПД
+                </button>
+            </div>
+            <table class="table table-hover table-striped text-center table-sm">
 
                 <thead>
 
                 <tr class="thead-dark">
                     <th>ID</th>
                     <th>Код расходов</th>
-                    <th>Код КОСГУ</th>
-                    <th>Наименование КОСГУ</th>
+                    <th>Код ОКПД</th>
+                    <th>Наименование ОКПД</th>
+                    <th>Действия</th>
                 </tr>
                 </thead>
 
@@ -24,18 +29,16 @@
 
                 @forelse($okpds as $okpd)
                     <tr class="searchable ">
-
                         <td> {{ $okpd->id }} </td>
                         <td> {{ $okpd->getKODrashodov->kod }} </td>
-                        <td> {{ $okpd->kod }} </td>
+                        <td><b>{{ $okpd->kod }}</b></td>
                         <td> {{ $okpd->name}} </td>
-
-
-                        {{--                        <td class="align-middle">--}}
-                        {{--                            <a href="{{route('admin.protokols.show', $protokol->KodProtokol)}}">--}}
-                        {{--                                <button type="button" class="btn btn-sm btn-primary shadow">Перейти к протоколу</button>--}}
-                        {{--                            </a>--}}
-                        {{--                        </td>--}}
+                        <td>
+                            <div class="btn-group btn-group-sm px-2" role="group" aria-label="Basic example">
+                                <button type="button" class="btn btn-success"><i class="fa fa-pencil-alt"></i></button>
+                                <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                            </div>
+                        </td>
                     </tr>
                 @empty
                     <tr class="searchable">

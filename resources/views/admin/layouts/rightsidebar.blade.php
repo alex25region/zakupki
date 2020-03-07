@@ -21,32 +21,32 @@
                 <li class="nav-header">Выберите таблицу:</li>
                         <li class="nav-item">
                             <a href="{{ route('obas.index') }}" class="nav-link">
-                                <i class="fa fa-angle-right"></i>
+                                <i class="fa fa-caret-right"></i>
                                 <p><b>ОБАС</b></p>
                             </a>
                         </li>
 
                         <li class="nav-item">
                             <a href="{{route('mpi.index')}}" class="nav-link">
-                                <i class="fa fa-angle-right"></i>
+                                <i class="fa fa-caret-right"></i>
                                 <p><b>МПИ</b></p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{route('tru.index')}}" class="nav-link">
-                                <i class="fa fa-angle-right"></i>
+                                <i class="fa fa-caret-right"></i>
                                 <p><b>ТРУ</b></p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{route('kosgu.index')}}" class="nav-link">
-                                <i class="fa fa-angle-right "></i>
+                                <i class="fa fa-caret-right "></i>
                                 <p><b>КОСГУ</b></p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{route('okpd.index')}}" class="nav-link">
-                                <i class="fa fa-angle-right "></i>
+                                <i class="fa fa-caret-right "></i>
                                 <p><b>ОКПД</b></p>
                             </a>
                         </li>

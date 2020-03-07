@@ -15,7 +15,7 @@ class KOSGUController extends Controller
      */
     public function index()
     {
-        $kosgus = KOSGU::all();
+        $kosgus = KOSGU::with('getKODrashodov')->get();
         return view('admin.index_kosgu', compact('kosgus'));
     }
 
