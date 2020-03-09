@@ -34,7 +34,7 @@
 <!-- ./wrapper -->
 
 
-<script src="{{ asset('/js/app.js')}}"></script>
+
 
 <script>
     /** add active class and stay opened when selected */

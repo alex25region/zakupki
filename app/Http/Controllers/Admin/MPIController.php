@@ -43,7 +43,11 @@ class MPIController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $mpi = MPI::updateOrCreate(
+            ['id' => $request->id],
+            ['year' => $request->year, 'shortname' => $request->shortname, 'name' => $request->name, 'kod' => $request->kod]
+        );
+        return Response::json($mpi);
     }
 
     /**
