@@ -6,6 +6,8 @@
 
 require('./bootstrap');
 
+//require( 'datatables.net-bs4' )();
+
 window.Vue = require('vue');
 
 /**
@@ -29,7 +31,6 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 
 
 const app = new Vue({
-
     el: '#app',
 });
 Vue.config.productionTip = false;
