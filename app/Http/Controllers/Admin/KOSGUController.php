@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\KODRashodov;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\KOSGU;
+use DataTables;
 
 class KOSGUController extends Controller
 {
@@ -13,10 +15,39 @@ class KOSGUController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+//        $kosgus = KOSGU::with('getKODrashodov')->get();
+//        return view('admin.index_kosgu', compact('kosgus'));
+
         $kosgus = KOSGU::with('getKODrashodov')->get();
-        return view('admin.index_kosgu', compact('kosgus'));
+        $kodrashodov = KODRashodov::all();
+
+        if ($request->ajax()) {
+            return Datatables::of($kosgus)
+                ->addIndexColumn()
+                // добавление связанной таблицы:
+                ->editColumn('kod_rashodov_id', function($kosgu) {
+                    return $kosgu->getKODrashodov->kod;
+                })
+                ->addColumn('action', function ($kosgu) {
+                    // добавление кнопок с edit и delete, а также data-id для определения id:
+                    $btngroup = '
+                        <div class="btn-group btn-group-sm px-2" role="group">
+                            <a href="javascript:void(0)" class="btn btn-primary" id="edit-kosgu" data-id="'.$kosgu->id.'"><i class="fa fa-pencil-alt"></i></a>
+                            <a href="javascript:void(0)" class="btn btn-danger delete-kosgu" id="delete-kosgu" data-id="'.$kosgu->id.'"><i class="fa fa-trash"></i></a>
+                        </div>
+                    ';
+                    return $btngroup;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+        return view('admin.index_kosgu', compact('kosgus', 'kodrashodov'));
+
+
+
+
     }
 
     /**
@@ -37,7 +68,19 @@ class KOSGUController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        KOSGU::updateOrCreate(
+            ['id' => $request->kosgu_id],
+            [
+                'kod_rashodov_id' => $request->kod_rashodov_id,
+                'kod' => $request->kod,
+                'name' => $request->name,
+            ]
+        );
+        $response = [
+            'success' => true,
+            'message' => 'KOSGU saved successfully.',
+        ];
+        return response()->json($response, 200);
     }
 
     /**
@@ -59,7 +102,8 @@ class KOSGUController extends Controller
      */
     public function edit($id)
     {
-        //
+        $kosgu = KOSGU::find($id);
+        return response()->json($kosgu);
     }
 
     /**
@@ -82,6 +126,14 @@ class KOSGUController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if(KOSGU::destroy($id)) {
+
+            // return response
+            $response = [
+                'success' => true,
+                'message' => 'KOSGU deleted successfully.',
+            ];
+            return response()->json($response, 200);
+        }
     }
 }

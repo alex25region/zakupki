@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use App\Http\Controllers\Controller;
 use App\Models\MPI;
+use DataTables;
 
 class MPIController extends Controller
 {
@@ -14,15 +15,34 @@ class MPIController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //default
 //        $mpis = MPI::all()->sortBy('shortname')->sortBy('year');
 //        return view('admin.index_mpi', compact('mpis'));
 
-        //ajax
-        $data['mpis'] = MPI::all()->sortBy('shortname')->sortBy('year');
-        return view('admin.index_mpi',$data);
+        $mpis = MPI::all()->sortBy('shortname')->sortBy('year');
+        if ($request->ajax()) {
+            return Datatables::of($mpis)
+                ->addIndexColumn()
+                // добавление связанной таблицы:
+
+                ->addColumn('action', function ($mpi) {
+                    // добавление кнопок с edit и delete, а также data-id для определения id:
+                    $btngroup = '
+                        <div class="btn-group btn-group-sm px-2" role="group">
+                            <a href="javascript:void(0)" class="btn btn-primary" id="edit-mpi" data-id="' . $mpi->id . '"><i class="fa fa-pencil-alt"></i></a>
+                            <a href="javascript:void(0)" class="btn btn-danger" id="delete-mpi" data-id="' . $mpi->id . '"><i class="fa fa-trash"></i></a>
+                        </div>
+                    ';
+                    return $btngroup;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+        return view('admin.index_mpi', compact('mpis'));
+
+
     }
 
     /**
@@ -43,11 +63,16 @@ class MPIController extends Controller
      */
     public function store(Request $request)
     {
-        $mpi = MPI::updateOrCreate(
+        MPI::updateOrCreate(
             ['id' => $request->id],
             ['year' => $request->year, 'shortname' => $request->shortname, 'name' => $request->name, 'kod' => $request->kod]
         );
-        return Response::json($mpi);
+//        return Response::json($mpi);
+        $response = [
+            'success' => true,
+            'message' => 'MPI saved successfully.',
+        ];
+        return response()->json($response, 200);
     }
 
     /**

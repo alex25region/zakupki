@@ -60,7 +60,6 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <span id="form_result"></span>
                     <form id="truForm" name="truForm" >
                         <div class="modal-body">
                             <input type="hidden" name="tru_id" id="tru_id"> {{--скрытый input со значением id--}}
@@ -144,38 +143,20 @@
                 url: "{{ url('tru') }}",
                 type: "POST",
                 dataType: 'json',
-/*                success: function (data) {
+                success: function (data) {
                     $('#truForm').trigger("reset");
                     $('#ajaxModal').modal('hide');
                     table.draw();
+                    Swal.fire(
+                        'Good job!',
+                        'Позиция успешно создана или обновлена!',
+                        'success'
+                    );
                 },
                 error: function (data) {
                     console.log('Error:', data);
                     $('#btn-save').html('Сохранить');
-                }*/
-                success:function(data)
-                {
-                    var html = '';
-                    if(data.errors)
-                    {
-                        html = '<div class="alert alert-danger">';
-                        for(var count = 0; count < data.errors.length; count++)
-                        {
-                            html += '<p>' + data.errors[count] + '</p>';
-                        }
-                        html += '</div>';
-                    }
-                    if(data.success) {
-                        html = '<div class="alert alert-success">' + data.success + '</div>';
-                        $('#truForm').trigger("reset");
-                        $('#ajaxModal').modal('hide');
-                        table.draw();
-
-                    }
-                    $('#form_result').html(html);
                 }
-
-
             });
         });
 
@@ -196,18 +177,29 @@
         // delete
        $('body').on('click', '#delete-tru', function () {
             var tru_id = $(this).data("id");
-            confirm("Are You sure want to delete!");
+            if(confirm("Are You sure want to delete!")){
+                $.ajax({
+                    type: "DELETE",
+                    url: "{{ url('tru') }}" + '/' + tru_id,
+                    success: function (data) {
+                        Swal.fire(
+                            'Good job!',
+                            'Позиция успешно удалена!',
+                            'success'
+                        );
+                        table.draw();
 
-            $.ajax({
-                type: "DELETE",
-                url: "{{ url('tru') }}" + '/' + tru_id,
-                success: function (data) {
-                    table.draw();
-                },
-                error: function (data) {
-                    console.log('Error:', data);
-                }
-            });
+                    },
+                    error: function (data) {
+                        console.log('Error:', data);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Something went wrong!',
+                        })
+                    }
+                });
+            }
         });
 
 

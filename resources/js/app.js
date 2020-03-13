@@ -5,10 +5,13 @@
  */
 
 require('./bootstrap');
+require('sweetalert2');
+
 
 //require( 'datatables.net-bs4' )();
 
 window.Vue = require('vue');
+window.Swal = require('sweetalert2');
 
 /**
  * The following block of code may be used to automatically register your

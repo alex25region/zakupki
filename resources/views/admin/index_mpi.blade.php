@@ -8,12 +8,11 @@
         </div>
         <div class="card-body">
             <div class="row mb-3 justify-content-end">
-{{--                <button class="btn btn-success mr-3" id="create" data-toggle="modal" data-target="#ModalCreate">Добавить МПИ </button>--}}
                 <a href="javascript:void(0)" class="btn btn-success mr-3" id="create-new-mpi">
                     Добавить МПИ
                 </a>
             </div>
-            <table class="table table-hover table-striped text-center table-sm ">
+            <table id="dataTable" class="table table-hover table-striped text-center table-sm ">
                 <thead>
                 <tr class="thead-dark">
                     <th>ID</th>
@@ -25,7 +24,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                @forelse($mpis as $mpi)
+               {{-- @forelse($mpis as $mpi)
                     <tr id="mpi_id_{{$mpi->id}}">
                         <td> {{ $mpi->id }} </td>
                         <td> {{ $mpi->year }} </td>
@@ -33,12 +32,9 @@
                         <td> {{ $mpi->name }} </td>
                         <td> {{ $mpi->kod }} </td>
                         <td>
-                            <div class="btn-group btn-group-sm px-2" role="group" aria-label="Basic example">
-{{--                                <button type="button" class="btn btn-primary" id="edit" data-id="{{ $mpi->id }}" data-toggle="modal" data-target="#ModalEdit"><i class="fa fa-pencil-alt"></i></button>--}}
-{{--                                <button type="button" class="btn btn-danger" id="delete" data-id="{{ $mpi->id }}"><i class="fa fa-trash"></i></button>--}}
+                            <div class="btn-group btn-group-sm px-2" role="group">
                                 <a href="javascript:void(0)" class="btn btn-primary"  id="edit-mpi" data-id="{{ $mpi->id }}"><i class="fa fa-pencil-alt"></i></a>
                                 <a href="javascript:void(0)" class="btn btn-danger delete-mpi" id="delete-mpi" data-id="{{ $mpi->id }}"><i class="fa fa-trash"></i></a>
-
                             </div>
                         </td>
                     </tr>
@@ -46,23 +42,23 @@
                     <tr class="searchable">
                         <td>No Data</td>
                     </tr>
-                @endforelse
+                @endforelse--}}
                 </tbody>
             </table>
         </div>
     </div>
 
     {{--Модальное окно Create--}}
-    <div class="modal fade" id="ModalMPI" tabindex="-1" role="dialog" aria-labelledby="label" aria-hidden="true">
+    <div class="modal fade" id="ajaxModal" tabindex="-1" role="dialog" aria-labelledby="label">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="ModalMPIlabel"></h5>
+                    <h5 class="modal-title" id="ModalHeader"></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form id="FormMPI" name="FormMPI" >
+                <form id="mpiForm" name="mpiForm" >
                     <div class="modal-body">
                         <input type="hidden" name="id" id="id"> {{--скрытый input со значением id--}}
 
@@ -86,124 +82,123 @@
                     </div>
                 </form>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="btn-save" value="create-mpi">Save changes</button>
+                    <button type="button" class="btn btn-primary" id="btn-save" value="">Сохранить</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Отмена</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <script>
+    <script type="text/javascript">
+
         $(document).ready(function () {
             $.ajaxSetup({
-                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            // datatable
+            var table = $('#dataTable').DataTable({
+                paging:   false,
+                processing: true,
+                serverSide: true,
+                ajax: "{{ url('mpi') }}",
+                columns: [
+                    {data: 'id', name: 'id'},
+                    {data: 'year', name: 'year'},
+                    {data: 'shortname', name: 'shortname', class:'bolded'},
+                    {data: 'name', name: 'name'},
+                    {data: 'kod', name: 'kod'},
+                    {data: 'action',
+                        orderable: false,
+                        searchable: false,
+                    },
+                ]
             });
 
             // create
             $('#create-new-mpi').click(function () {
-                $('#btn-save').val("create-mpi");           // присвоение значение для обработки запроса в ajax (ниже по скрипту)
-                $('#FormMPI').trigger("reset");       // очистка формы
-                $('#ModalMPIlabel').html("Создание МПИ");   // изменение заголовка модального окна
-                $('#ModalMPI').modal('show');               // открыть модальное окно
+                $('#btn-save').html("Создать");
+                $('#mpi_id').val('');
+                $('#mpiForm').trigger("reset");
+                $('#ModalHeader').html("Создание МПИ");
+                $('#ajaxModal').modal('show');
             });
 
+            // create or update
+            $('#btn-save').click(function (e) {
+                e.preventDefault();
+                $(this).html('Сохранение...');
+
+                $.ajax({
+                    data: $('#mpiForm').serialize(),
+                    url: "{{ url('mpi') }}",
+                    type: "POST",
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#mpiForm').trigger("reset");
+                        $('#ajaxModal').modal('hide');
+                        table.draw();
+                        Swal.fire(
+                            'Good job!',
+                            'Позиция успешно создана или обновлена!',
+                            'success'
+                        );
+                    },
+                    error: function (data) {
+                        console.log('Error:', data);
+                        $('#btn-save').html('Сохранить');
+                    }
+                });
+            });
+
+
             // edit
-
-
             $('body').on('click', '#edit-mpi', function () {
                 var mpi_id = $(this).data('id');
-                $.get('{{ url('mpi')}}' + '/' + mpi_id + '/edit', function (data) {
-                    $('#ModalMPIlabel').html("Редактирование МПИ");
-                    $('#btn-save').val("edit-mpi");
-                    $('#ModalMPI').modal('show');
+                $.get("{{ url('mpi') }}" + '/' + mpi_id + '/edit', function (data) {
+                    $('#ModalHeader').html("Редактирование МПИ");
+                    $('#btn-save').html('Обновить');
+                    $('#ajaxModal').modal('show');
                     $('#id').val(data.id);
                     $('#year').val(data.year);
                     $('#shortname').val(data.shortname);
                     $('#name').val(data.name);
                     $('#kod').val(data.kod);
                 })
-
             });
 
-
             // delete
-            $('body').on('click', '.delete-mpi', function () {
+            $('body').on('click', '#delete-mpi', function () {
                 var mpi_id = $(this).data("id");
-                //console.log(mpi_id);
-                if (confirm("Are You sure want to delete!")) {
-                    //console.log(mpi_id);
+                if(confirm("Are You sure want to delete!")){
                     $.ajax({
                         type: "DELETE",
-
-                        // тут указать корректный роут:
-                        url: "{{url('mpi')}}" + '/' + mpi_id,
+                        url: "{{ url('mpi') }}" + '/' + mpi_id,
                         success: function (data) {
-                            $("#mpi_id_" + mpi_id).remove();
+                            Swal.fire(
+                                'Good job!',
+                                'Позиция успешно удалена!',
+                                'success'
+                            );
+                            table.draw();
+
                         },
                         error: function (data) {
                             console.log('Error:', data);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Something went wrong!',
+                            })
                         }
                     });
                 }
             });
-           /* if ($("#FormMPI").length > 0) {
 
-
-                $("#FormMPI").validate({
-
-                    submitHandler: function(form) {
-
-                        var actionType = $('#btn-save').val();
-                        $('#btn-save').html('Sending..');
-
-                        $.ajax({
-                            data: $('#FormMPI').serialize(),
-                            url: '{{ url('mpi')}}' + '/store',
-                            type: "POST",
-                            dataType: 'json',
-                            success: function (data) {
-                                var mpi = '<tr id="mpi_id_' + data.id + '">' +
-                                    '<td>' + data.id + '</td>' +
-                                    '<td>' + data.year + '</td>' +
-                                    '<td>' + data.shortname + '</td>' +
-                                    '<td>' + data.name + '</td>' +
-                                    '<td>' + data.kod + '</td>';
-                                mpi += '<td colspan="2"><a href="javascript:void(0)" id="edit-mpi" data-id="' + data.id + '" class="btn btn-info mr-2">Edit</a>';
-                                mpi += '<a href="javascript:void(0)" id="delete-mpi" data-id="' + data.id + '" class="btn btn-danger delete-user ml-1">Delete</a></td></tr>';
-
-
-
-
-                                if (actionType == "create-mpi") {
-                                    $('#FormMPI').prepend(mpi);
-                                } else {
-                                    $("#mpi_id_" + data.id).replaceWith(mpi);
-                                }
-
-                                $('#FormMPI').trigger("reset");
-                                $('#ModalMPI').modal('hide');
-                                $('#btn-save').html('Save Changes');
-
-                            },
-                            error: function (data) {
-                                console.log('Error:', data);
-                                $('#btn-save').html('Save Changes');
-                            }
-                        });
-                    }
-                })
-
-            }*/
 
         });
-
-
-
-
-
-
-
-
     </script>
 
 

@@ -87,5 +87,6 @@ class TRUController extends Controller
         ];
             return response()->json($response, 200);
         }
+
     }
 }
